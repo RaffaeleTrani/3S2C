@@ -14,18 +14,9 @@ spec:
         networkservicemesh.io/impl: "vpp-example"
     spec:
       serviceAccount: nse-acc
-      affinity:
-          nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                  nodeSelectorTerms:
-                      - matchExpressions:
-                        - key: kubernetes.io/hostname
-                          operator: In
-                          values:
-                            - cube4
       containers:
         - name: vpp-firewall
-          image: raffaeletrani/vpp-test-common:vppiperf3
+          image: raffaeletrani/vppagent-firewall-nse:latest
           imagePullPolicy: IfNotPresent
           env:
             - name: TEST_APPLICATION
@@ -63,3 +54,4 @@ data:
     aclRules:
       "Allow ICMP": "action=reflect,icmptype=8"
       "Allow TCP": "action=reflect,tcplowport=5201,tcpupport=5201"
+      "Allow UDP": "action=reflect,udplowport=5201,udpupport=5201"

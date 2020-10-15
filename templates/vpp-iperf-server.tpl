@@ -14,19 +14,13 @@ spec:
         networkservicemesh.io/impl: "vpp-example"
     spec:
       serviceAccount: nse-acc
-      affinity:
-          nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                  nodeSelectorTerms:
-                      - matchExpressions:
-                        - key: kubernetes.io/hostname
-                          operator: In
-                          values:
-                            - cube4
       containers:
         - name: vpp-iperf-server
-          image: raffaeletrani/vpp-test-common:vppiperf3
+          image: raffaeletrani/vppagent-iperf-server:latest
           imagePullPolicy: IfNotPresent
+          securityContext:
+            capabilities:
+              add: ["ALL"]
           env:
             - name: TEST_APPLICATION
               value: "vppagent-icmp-responder-nse"
